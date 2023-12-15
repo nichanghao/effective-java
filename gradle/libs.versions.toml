@@ -1,0 +1,25 @@
+[versions]
+hutool = '5.8.20'
+lombok = '1.18.26'
+dubbo = '3.2.5'
+dynamic-tp = '1.1.3'
+gcp = '4.2.0'
+rocketmq-spring-boot-starter = '2.2.3'
+spring-boot = '3.0.5'
+spring-cloud = '2022.0.1'
+spring-cloud-alibaba = '2022.0.0.0-RC2'
+
+[libraries]
+hutool-all = { module = 'cn.hutool:hutool-all', version.ref = 'hutool' }
+lombok = { module = 'org.projectlombok:lombok', version.ref = 'lombok' }
+dubbo-bom = { module = 'org.apache.dubbo:dubbo-bom', version.ref = 'dubbo' }
+
+spring-cloud-gcp-dependencies = { module = 'com.google.cloud:spring-cloud-gcp-dependencies', version.ref = 'gcp' }
+spring-cloud-dependencies = { module = 'org.springframework.cloud:spring-cloud-dependencies', version.ref = 'spring-cloud' }
+spring-cloud-alibaba-dependencies = { module = 'com.alibaba.cloud:spring-cloud-alibaba-dependencies', version.ref = 'spring-cloud-alibaba' }
+
+dynamic-tp-spring-boot-starter-nacos = { module = 'org.dromara.dynamictp:dynamic-tp-spring-boot-starter-nacos', version.ref = 'dynamic-tp' }
+rocketmq-spring-boot-starter = { module = 'org.apache.rocketmq:rocketmq-spring-boot-starter', version.ref = 'rocketmq-spring-boot-starter' }
+
+[plugins]
+springframework-boot = { id = 'org.springframework.boot', version.ref = 'spring-boot' }
