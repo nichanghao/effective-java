@@ -1,5 +1,4 @@
 rootProject.name = 'java-basic'
-include('design-pattern')
 
 dependencyResolutionManagement {
     repositories {
@@ -11,4 +10,6 @@ dependencyResolutionManagement {
     }
 }
 include 'design-pattern'
+include 'algorithm'
+include 'thread'
 
