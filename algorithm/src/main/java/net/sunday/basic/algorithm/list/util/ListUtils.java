@@ -34,4 +34,24 @@ public class ListUtils {
         System.out.println();
     }
 
+    /**
+     * 打印随机链表
+     */
+    public static <E> void printRandomList(Node<E> head) {
+        Node<E> cur = head;
+        System.out.println("order list:");
+        while (cur != null) {
+            System.out.print(cur.data + "\t");
+            cur = cur.next;
+        }
+        System.out.println();
+        System.out.println("=================");
+        System.out.println("random list:");
+        cur = head;
+        while (cur != null) {
+            System.out.print((cur.rand != null ? cur.rand.data : "null") + "\t");
+            cur = cur.next;
+        }
+        System.out.println();
+    }
 }
