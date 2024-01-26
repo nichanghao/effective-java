@@ -2,11 +2,14 @@ package net.sunday.basic.thread.forkjoin;
 
 import java.util.concurrent.RecursiveTask;
 
+/**
+ * 经销商销量
+ */
 public class DealerSalesTask extends RecursiveTask<Long> {
 
-    private static final long sale = 100;
+    private static final long dealerSales = 100;
 
-    private long currSale;
+    private final long currSale;
 
     DealerSalesTask(long currSale) {
         this.currSale = currSale;
@@ -16,6 +19,6 @@ public class DealerSalesTask extends RecursiveTask<Long> {
     protected Long compute() {
         TerminalSalesTask task = new TerminalSalesTask(currSale);
         task.fork();
-        return sale + task.join();
+        return dealerSales + task.join();
     }
 }

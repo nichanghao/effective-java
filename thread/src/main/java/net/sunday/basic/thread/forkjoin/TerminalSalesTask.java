@@ -8,9 +8,9 @@ import java.util.concurrent.RecursiveTask;
 
 public class TerminalSalesTask extends RecursiveTask<Long> {
 
-    private static final long sale = 10;
+    private static final long terminalSales = 10;
 
-    private long currSale;
+    private final long currSale;
 
     TerminalSalesTask(long currSale) {
         this.currSale = currSale;
@@ -18,6 +18,6 @@ public class TerminalSalesTask extends RecursiveTask<Long> {
 
     @Override
     protected Long compute() {
-        return sale + currSale;
+        return terminalSales + currSale;
     }
 }
