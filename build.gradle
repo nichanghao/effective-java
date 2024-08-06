@@ -2,17 +2,18 @@ import org.springframework.boot.gradle.plugin.SpringBootPlugin
 
 plugins {
     id 'java-library'
-    alias(libs.plugins.springframework.boot)
+    alias(libs.plugins.springframework.boot) apply false
 }
+
+allprojects {
+    group('net.sunday.effective')
+    version('1.0-SNAPSHOT')
+}
+
 subprojects {
     apply {
         plugin("java-library")
     }
-
-    group('net.sunday.javabasic')
-    version('1.0-SNAPSHOT')
-    sourceCompatibility = JavaVersion.VERSION_17
-    targetCompatibility = JavaVersion.VERSION_17
 
     test {
         useJUnitPlatform()
@@ -20,6 +21,7 @@ subprojects {
 
     dependencies {
         implementation(enforcedPlatform(SpringBootPlugin.BOM_COORDINATES))
+        implementation(platform(libs.hutool.bom))
         implementation(platform(libs.spring.cloud.dependencies))
         implementation(platform(libs.spring.cloud.alibaba.dependencies))
 
@@ -28,6 +30,13 @@ subprojects {
         annotationProcessor(libs.lombok)
 
         testImplementation('org.springframework.boot:spring-boot-starter-test')
+    }
+
+    java {
+        withSourcesJar()
+        toolchain {
+            languageVersion.set(JavaLanguageVersion.of(libs.versions.java.get().toInteger()))
+        }
     }
 
     compileJava.options.encoding('UTF-8')
