@@ -27,16 +27,16 @@ public class FutureTaskTest {
 
     @SneakyThrows
     private static void byThreadPool() {
-        ExecutorService executorService = Executors.newSingleThreadExecutor();
+        try (ExecutorService executorService = Executors.newSingleThreadExecutor()) {
+            Future<String> future = executorService.submit(() -> {
+                Thread.sleep(2000);
+                return Thread.currentThread().getName() + "执行完毕";
+            });
 
-        Future<String> future = executorService.submit(() -> {
-            Thread.sleep(2000);
-            return Thread.currentThread().getName() + "执行完毕";
-        });
+            //从Future中取得返回值
+            System.out.println("ThreadPool任务的返回值：" + future.get());
 
-        //从Future中取得返回值
-        System.out.println("ThreadPool任务的返回值：" + future.get());
-
-        executorService.shutdown();
+            executorService.shutdown();
+        }
     }
 }

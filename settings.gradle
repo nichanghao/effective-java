@@ -11,4 +11,5 @@ dependencyResolutionManagement {
 }
 include 'design-pattern'
 include 'thread'
+include 'java-agent'
 
