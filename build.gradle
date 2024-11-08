@@ -1,44 +1,33 @@
 import org.springframework.boot.gradle.plugin.SpringBootPlugin
 
 plugins {
-    alias(libs.plugins.springframework.boot) apply false
+    // 使用 java-platform 进行依赖管理
+    id('java-platform')
+    alias(libs.plugins.spring.boot) apply false
 }
 
 allprojects {
     group('net.sunday.effective')
     version('1.0-SNAPSHOT')
+
+    tasks.withType(JavaCompile).configureEach {
+        options.encoding = "UTF-8"
+    }
 }
 
-subprojects {
-    apply {
-        plugin("java")
+javaPlatform {
+    allowDependencies()
+}
+
+dependencies {
+    api(platform(libs.hutool.bom))
+    api(platform(libs.spring.cloud.dependencies))
+    api(platform(libs.spring.cloud.alibaba.dependencies))
+    api(enforcedPlatform(SpringBootPlugin.BOM_COORDINATES))
+    // 依赖管理，只声明依赖版本
+    constraints {
+
     }
-
-    test {
-        useJUnitPlatform()
-    }
-
-    dependencies {
-        implementation(enforcedPlatform(SpringBootPlugin.BOM_COORDINATES))
-        implementation(platform(libs.hutool.bom))
-        implementation(platform(libs.spring.cloud.dependencies))
-        implementation(platform(libs.spring.cloud.alibaba.dependencies))
-
-        compileOnly(libs.lombok)
-        testCompileOnly(libs.lombok)
-        annotationProcessor(libs.lombok)
-
-        testImplementation('org.springframework.boot:spring-boot-starter-test')
-    }
-
-    java {
-        withSourcesJar()
-        toolchain {
-            languageVersion.set(JavaLanguageVersion.of(libs.versions.java.get().toInteger()))
-        }
-    }
-
-    compileJava.options.encoding('UTF-8')
 }
 
 

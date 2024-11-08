@@ -16,4 +16,4 @@ spring-cloud-dependencies = { module = 'org.springframework.cloud:spring-cloud-d
 spring-cloud-alibaba-dependencies = { module = 'com.alibaba.cloud:spring-cloud-alibaba-dependencies', version.ref = 'spring-cloud-alibaba' }
 
 [plugins]
-springframework-boot = { id = 'org.springframework.boot', version.ref = 'spring-boot' }
+spring-boot = { id = 'org.springframework.boot', version.ref = 'spring-boot' }

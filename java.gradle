@@ -1,0 +1,23 @@
+apply plugin: JavaPlugin
+
+test {
+    useJUnitPlatform()
+}
+
+dependencies {
+    // 引用 项目依赖
+    implementation(enforcedPlatform(rootProject))
+
+    compileOnly(libs.lombok)
+    testCompileOnly(libs.lombok)
+    annotationProcessor(libs.lombok)
+
+    testImplementation('org.springframework.boot:spring-boot-starter-test')
+}
+
+java {
+    withSourcesJar()
+    toolchain {
+        languageVersion.set(JavaLanguageVersion.of(libs.versions.java.get().toInteger()))
+    }
+}

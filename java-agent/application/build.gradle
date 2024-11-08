@@ -1,0 +1,17 @@
+plugins {
+    id 'application'
+}
+
+dependencies {
+    implementation(project(':java-agent:agent'))
+}
+
+application {
+    mainClass = 'net.sunday.effective.java.application.JavaAgentApplication'
+}
+
+
+// 直接点击run左侧运行按钮，可以测试 JavaAgent 效果
+run {
+    jvmArgs = ["-javaagent:${project(':java-agent:agent').tasks.jar.archiveFile.get().asFile}"]
+}

@@ -8,6 +8,11 @@ public class PrintNumByWaitNotify {
     private volatile int num = 0;
 
     public void printNum(int threadNo) {
+        // 尽可能保证0号线程后执行，防止极端情况下，0号线程执行到 notifyAll() 时，其他线程还没有 wait
+        if (threadNo == 0) {
+            Thread.yield();
+        }
+
         while (num <= 100) {
             synchronized (PrintNumByWaitNotify.class) {
                 // 需要使用 while 多次进行判断，防止被 notifyAll 后，直接向下执行了

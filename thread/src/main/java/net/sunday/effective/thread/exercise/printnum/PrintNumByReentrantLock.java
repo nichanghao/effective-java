@@ -19,11 +19,15 @@ public class PrintNumByReentrantLock {
     private static final Condition[] conditions = {lock.newCondition(), lock.newCondition(), lock.newCondition()};
 
     public void printNum(int threadNo) {
+        if (threadNo == 0) {
+            Thread.yield();
+        }
+
         while (num <= 100) {
             lock.lock();
 
             try {
-                while (num % 3 != threadNo) {
+                if (num % 3 != threadNo) {
                     try {
                         conditions[threadNo].await();
                     } catch (InterruptedException e) {

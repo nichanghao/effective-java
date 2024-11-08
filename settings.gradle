@@ -12,4 +12,8 @@ dependencyResolutionManagement {
 include 'design-pattern'
 include 'thread'
 include 'java-agent'
+include 'java-agent:agent'
+findProject(':java-agent:agent')?.name = 'agent'
+include 'java-agent:application'
+findProject(':java-agent:application')?.name = 'application'
 
