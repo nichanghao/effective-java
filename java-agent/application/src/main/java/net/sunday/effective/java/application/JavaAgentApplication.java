@@ -6,9 +6,9 @@ public class JavaAgentApplication {
 
     public static void main(String[] args) {
 
-        System.out.println("JavaAgent application is running");
+        System.out.println("[JavaAgentApplication] is running");
         Person person = new Person();
-        person.test();
+        System.out.println("[JavaAgentApplication] execute sayOK() method result: " + person.sayOK());
     }
 
 }

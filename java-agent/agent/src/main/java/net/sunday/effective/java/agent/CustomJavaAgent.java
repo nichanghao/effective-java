@@ -1,7 +1,6 @@
 package net.sunday.effective.java.agent;
 
 import java.lang.instrument.Instrumentation;
-import java.util.Arrays;
 
 public class CustomJavaAgent {
 
@@ -14,10 +13,10 @@ public class CustomJavaAgent {
     public static void premain(String args, Instrumentation inst) {
         System.out.println("hello I`m premain agent!!!");
 
-        operateInstrumentation(inst);
+        operateInstrumentationWithJavassist(inst);
     }
 
-    private static void operateInstrumentation(Instrumentation inst) {
+    private static void operateInstrumentationWithJavassist(Instrumentation inst) {
         inst.addTransformer(new PersonTransformer(), true);
     }
 }

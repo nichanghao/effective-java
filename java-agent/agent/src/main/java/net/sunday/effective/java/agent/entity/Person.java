@@ -1,8 +1,15 @@
 package net.sunday.effective.java.agent.entity;
 
 public class Person {
-    public String test() {
-        System.out.println("executing person's test method");
+    public String sayOK() {
+
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+
+        System.out.println("executing person's sayOK()......");
 
         return "I'm ok";
     }

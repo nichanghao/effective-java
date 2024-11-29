@@ -2,7 +2,6 @@ rootProject.name = 'effective-java'
 
 dependencyResolutionManagement {
     repositories {
-        mavenLocal()
         maven {
             url 'https://maven.aliyun.com/repository/public/'
         }
