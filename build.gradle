@@ -26,7 +26,7 @@ dependencies {
     api(enforcedPlatform(SpringBootPlugin.BOM_COORDINATES))
     // 依赖管理，只声明依赖版本
     constraints {
-
+        api("cglib:cglib:3.3.0")
     }
 }
 
