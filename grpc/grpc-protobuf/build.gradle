@@ -1,0 +1,42 @@
+plugins {
+    id "java"
+    id "com.google.protobuf" version "0.9.5"
+    id "idea"
+}
+
+dependencies {
+    implementation "io.grpc:grpc-protobuf:${libs.versions.grpc.get()}"
+    implementation "io.grpc:grpc-netty:${libs.versions.grpc.get()}"
+    implementation "io.grpc:grpc-stub:${libs.versions.grpc.get()}"
+
+    compileOnly 'org.apache.tomcat:annotations-api:6.0.53'
+}
+
+
+// https://github.com/google/protobuf-gradle-plugin?tab=readme-ov-file#default-outputs
+protobuf {
+    protoc {
+        artifact = "com.google.protobuf:protoc:3.25.5"
+    }
+    plugins {
+        grpc {
+            artifact = "io.grpc:protoc-gen-grpc-java:${libs.versions.grpc.get()}"
+        }
+    }
+
+    generateProtoTasks {
+        // all() -- 获取所有生成的 protobuf 任务
+        // * -- Groovy 操作符，对 all() 返回集合中的每一个元素执行后续操作
+        all()*.plugins { grpc {} }
+    }
+}
+
+// Inform IDEs like IntelliJ IDEA about the generated code.
+sourceSets {
+    main {
+        java {
+            srcDirs 'build/generated/sources/proto/main/grpc'
+            srcDirs 'build/generated/sources/proto/main/java'
+        }
+    }
+}
