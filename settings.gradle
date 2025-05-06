@@ -20,4 +20,5 @@ include 'grpc:grpc-protobuf'
 findProject(':grpc:grpc-protobuf')?.name = 'grpc-protobuf'
 include 'grpc:grpc-application'
 findProject(':grpc:grpc-application')?.name = 'grpc-application'
+include 'antlr4'
 

@@ -1,0 +1,22 @@
+plugins {
+    id 'antlr'
+    id 'java'
+    id 'idea'
+}
+
+dependencies {
+    // 注意是 antlr 而不是 implementation
+    antlr 'org.antlr:antlr4:4.13.2'
+}
+
+generateGrammarSource {
+    arguments += ["-visitor"]
+}
+
+sourceSets {
+    main {
+        java {
+            srcDirs += 'build/generated-src/antlr/main'
+        }
+    }
+}
