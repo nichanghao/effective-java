@@ -1,0 +1,8 @@
+plugins {
+    id 'groovy'
+}
+apply from: "$rootDir/java.gradle"
+
+dependencies {
+    implementation 'org.apache.groovy:groovy:4.0.21'
+}

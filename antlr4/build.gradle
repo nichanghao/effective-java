@@ -3,6 +3,7 @@ plugins {
     id 'java'
     id 'idea'
 }
+apply from: "$rootDir/java.gradle"
 
 dependencies {
     // 注意是 antlr 而不是 implementation
