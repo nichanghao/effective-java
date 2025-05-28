@@ -9,6 +9,7 @@ import net.sunday.effective.antlr4.price.grammar.PALRuleExprParser;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 public class PALExprTest {
@@ -18,14 +19,15 @@ public class PALExprTest {
      */
     @Test
     void testPALConditionExpr() {
-        PALConditionExprLexer lexer = new PALConditionExprLexer(CharStreams.fromString("($A.120 >= 100 || $B.340 < 200) && $S.560 > 300"));
+        PALConditionExprLexer lexer = new PALConditionExprLexer(CharStreams.fromString("($A.120 + $B.340 > 100) && ($A.120 >= 100 || $B.340 < 200) && $S.560 > 300"));
         CommonTokenStream tokens = new CommonTokenStream(lexer);
         PALConditionExprParser parser = new PALConditionExprParser(tokens);
         ParseTree tree = parser.expression();
         System.out.println("tree: " + tree.toStringTree(parser));
 
         PALConditionExprVisitor visitor = new PALConditionExprVisitor();
-        System.out.println(visitor.visit(tree));
+
+        Assertions.assertTrue(visitor.visit(tree).asBool());
     }
 
     /**

@@ -7,6 +7,8 @@ root: expression EOF;
 expression
     : expressionNode                            # exprNode
     | L_PAREN expression R_PAREN                # parensOp
+    | expression mulDiv expression              # mulDivOp
+    | expression addSub expression              # addSubOp
     | expression compare expression             # compareOp
     | expression boolOperator expression        # boolOP
     ;
@@ -22,7 +24,8 @@ compare:
 boolOperator:
     AND | OR;
 
-
+addSub:       ADD | SUB ;
+mulDiv:       MUL | DIV ;
 
 // Constructors symbols
 DOT:         '.';
@@ -36,10 +39,15 @@ LTE:         '<=';
 LT:          '<';
 GTE:         '>=';
 GT:          '>';
+SUB:         '-';
+ADD:         '+';
+MUL:         '*';
+DIV:         '/';
 
 // Bool operators
 AND:         '&&';
 OR:          '||';
+
 
 // Literals
 ATTR_STR: ('$A' | '$B' | '$S') DOT Digit+;
