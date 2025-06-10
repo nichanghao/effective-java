@@ -1,0 +1,6 @@
+apply from: "$rootDir/java.gradle"
+
+dependencies {
+    implementation('org.springframework:spring-context')
+    implementation('cglib:cglib')
+}

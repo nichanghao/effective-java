@@ -1,6 +1,10 @@
+plugins {
+    alias(libs.plugins.spring.boot)
+}
 apply from: "$rootDir/java.gradle"
-
 dependencies {
     // https://mvnrepository.com/artifact/io.prometheus/simpleclient
     implementation 'io.prometheus:simpleclient:0.16.0'
+
+    implementation 'org.springframework.boot:spring-boot-starter-web'
 }
