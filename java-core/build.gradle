@@ -3,4 +3,6 @@ apply from: "$rootDir/java.gradle"
 dependencies {
     implementation('org.springframework:spring-context')
     implementation('cglib:cglib')
+    // https://mvnrepository.com/artifact/io.projectreactor/reactor-core
+    implementation 'io.projectreactor:reactor-core'
 }

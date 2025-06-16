@@ -23,3 +23,5 @@ findProject(':grpc:grpc-application')?.name = 'grpc-application'
 include 'antlr4'
 include 'groovy'
 include 'skywalking'
+include 'spring4all'
+
