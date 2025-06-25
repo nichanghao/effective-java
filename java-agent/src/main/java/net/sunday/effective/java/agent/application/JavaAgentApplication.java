@@ -1,4 +1,4 @@
-package net.sunday.effective.java.application;
+package net.sunday.effective.java.agent.application;
 
 import net.sunday.effective.java.agent.entity.Person;
 

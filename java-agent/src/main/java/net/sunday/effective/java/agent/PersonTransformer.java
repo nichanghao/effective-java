@@ -35,21 +35,21 @@ public class PersonTransformer implements ClassFileTransformer {
             cl = classPool.makeClass(new ByteArrayInputStream(classfileBuffer));
 
             // 获取 person 的 test 方法
-            CtMethod ctMethod = cl.getDeclaredMethod("test");
+            CtMethod ctMethod = cl.getDeclaredMethod("sayOK");
 
             // 声明本地变量
             ctMethod.addLocalVariable("start", CtClass.longType);
             ctMethod.addLocalVariable("end", CtClass.longType);
 
             ctMethod.insertBefore("""
-                    System.out.println("[execute person's test method before]");
+                    System.err.println("[execute person's sayOK() before]");
                     start = System.currentTimeMillis();
                     """);
 
             // $_ 该方法的返回值，这是 javassist 里特定的标示符
             ctMethod.insertAfter("""
-                    System.out.println("[person's test method return value]: " + $_);
-                    System.out.println("[person's test method after] cost: " + (System.currentTimeMillis() - start) + " ms");
+                    System.err.println("[person's sayOK() return value]: " + $_);
+                    System.err.println("[person's sayOK() after] cost: " + (System.currentTimeMillis() - start) + " ms");
                     """);
 
             return cl.toBytecode();

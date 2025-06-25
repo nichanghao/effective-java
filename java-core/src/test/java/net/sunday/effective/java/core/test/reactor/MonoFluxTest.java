@@ -2,7 +2,9 @@ package net.sunday.effective.java.core.test.reactor;
 
 import org.junit.jupiter.api.Test;
 import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 import reactor.core.scheduler.Schedulers;
+import reactor.util.context.Context;
 
 public class MonoFluxTest {
 
@@ -69,5 +71,24 @@ public class MonoFluxTest {
                         () -> System.out.println("[" + Thread.currentThread().getName() + "] Completed"));
 
     }
+
+    /**
+     * 测试 reactor 上下文
+     */
+    @Test
+    void testReactorContext() {
+
+        Mono.deferContextual(ctx ->
+                        Mono.just("Hello traceId => " + ctx.get("traceId")))
+                .subscribeOn(Schedulers.newParallel("subscribe-scheduler", 4))
+                .transformDeferredContextual((mono, ctx) ->
+                        mono.map(s -> "transform traceId => " + ctx.get("traceId") + " | " + s))
+                .contextWrite(Context.of("traceId", "123456"))
+                // 执行时机：整个流 正常完成、出现错误、被取消时
+                .doFinally(signalType -> System.out.println("Finally executed with signal: " + signalType))
+                .subscribe(System.out::println);
+
+    }
+
 
 }

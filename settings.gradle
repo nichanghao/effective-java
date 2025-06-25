@@ -11,10 +11,6 @@ dependencyResolutionManagement {
 
 include 'java-core'
 include 'java-agent'
-include 'java-agent:agent'
-findProject(':java-agent:agent')?.name = 'agent'
-include 'java-agent:application'
-findProject(':java-agent:application')?.name = 'application'
 include 'grpc'
 include 'grpc:grpc-protobuf'
 findProject(':grpc:grpc-protobuf')?.name = 'grpc-protobuf'
