@@ -6,6 +6,8 @@ apply from: "$rootDir/java.gradle"
 dependencies {
     // https://mvnrepository.com/artifact/org.javassist/javassist
     implementation 'org.javassist:javassist:3.30.2-GA'
+    // https://mvnrepository.com/artifact/io.prometheus/simpleclient
+    implementation 'io.prometheus:simpleclient:0.16.0'
 
     implementation 'net.bytebuddy:byte-buddy'
 }

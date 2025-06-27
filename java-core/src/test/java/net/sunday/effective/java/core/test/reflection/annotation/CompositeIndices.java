@@ -1,4 +1,4 @@
-package net.sunday.effective.skywalking.test.reflection.annotation;
+package net.sunday.effective.java.core.test.reflection.annotation;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

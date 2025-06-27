@@ -1,12 +1,11 @@
-package net.sunday.effective.skywalking.test.reflection;
-
-import net.sunday.effective.skywalking.test.reflection.annotation.CompositeIndex;
-import net.sunday.effective.skywalking.test.reflection.annotation.CompositeIndices;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
+package net.sunday.effective.java.core.test.reflection;
 
 import java.lang.reflect.Field;
 import java.util.List;
+import net.sunday.effective.java.core.test.reflection.annotation.CompositeIndex;
+import net.sunday.effective.java.core.test.reflection.annotation.CompositeIndices;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 public class JavaReflectTest {
 

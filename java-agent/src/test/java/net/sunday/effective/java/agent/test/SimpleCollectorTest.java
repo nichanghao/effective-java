@@ -1,4 +1,4 @@
-package net.sunday.effective.skywalking.test.prometheus;
+package net.sunday.effective.java.agent.test;
 
 import io.prometheus.client.Counter;
 import io.prometheus.client.SimpleCollector;
