@@ -1,6 +1,7 @@
 package net.sunday.effective.java.agent;
 
 import java.lang.instrument.Instrumentation;
+import net.sunday.effective.java.agent.transfomer.PersonTransformer;
 
 public class CustomJavaAgent {
 

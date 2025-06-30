@@ -16,17 +16,20 @@ import net.bytebuddy.description.modifier.Visibility;
 import net.bytebuddy.description.type.TypeDescription;
 import net.bytebuddy.dynamic.DynamicType;
 import net.bytebuddy.dynamic.loading.ClassInjector;
-import net.bytebuddy.dynamic.scaffold.TypeValidation;
-import net.bytebuddy.implementation.CSAuxiliaryTypeNamingStrategy;
-import net.bytebuddy.implementation.CSImplementationContextFactory;
 import net.bytebuddy.implementation.FixedValue;
 import net.bytebuddy.implementation.MethodDelegation;
+import net.bytebuddy.listener.AgentListener;
+import net.bytebuddy.listener.RedefinitionListener;
 import net.bytebuddy.matcher.ElementMatchers;
 import net.bytebuddy.utility.JavaModule;
 import net.sunday.effective.java.agent.entity.Person;
 import net.sunday.effective.java.agent.interceptor.InstMethodInterceptor;
 import net.sunday.effective.java.agent.util.AgentUtils;
 import org.junit.jupiter.api.Test;
+
+import static net.bytebuddy.matcher.ElementMatchers.hasSuperType;
+import static net.bytebuddy.matcher.ElementMatchers.named;
+import static net.bytebuddy.matcher.ElementMatchers.takesArguments;
 
 /**
  * 字节码操作技术 ByteBuddy
@@ -73,23 +76,25 @@ public class ByteBuddyTest {
 
         Instrumentation instrumentation = ByteBuddyAgent.install();
 
-        newAgentBuilder()
-            .type(ElementMatchers.named("net.sunday.effective.java.agent.entity.Person"))
-            .transform(new AgentBuilder.Transformer() {
-                @Override
-                public DynamicType.Builder<?> transform(final DynamicType.Builder<?> builder,
-                                                        final TypeDescription typeDescription,
-                                                        final ClassLoader classLoader,
-                                                        final JavaModule module,
-                                                        final ProtectionDomain protectionDomain) {
+        AgentUtils.newAgentBuilder()
+                  .type(ElementMatchers.named("net.sunday.effective.java.agent.entity.Person"))
+                  .transform(new AgentBuilder.Transformer() {
+                      @Override
+                      public DynamicType.Builder<?> transform(final DynamicType.Builder<?> builder,
+                                                              final TypeDescription typeDescription,
+                                                              final ClassLoader classLoader,
+                                                              final JavaModule module,
+                                                              final ProtectionDomain protectionDomain) {
 
-                    return builder.method(ElementMatchers.named("sayOK"))
-                                  .intercept(MethodDelegation.withDefaultConfiguration()
-                                                             .to(new InstMethodInterceptor()));
-                }
-            })
-            .with(AgentBuilder.RedefinitionStrategy.RETRANSFORMATION)
-            .installOn(instrumentation);
+                          return builder.method(ElementMatchers.named("sayOK"))
+                                        .intercept(MethodDelegation.withDefaultConfiguration()
+                                                                   .to(new InstMethodInterceptor()));
+                      }
+                  })
+                  .with(AgentBuilder.RedefinitionStrategy.RETRANSFORMATION)
+                  .with(new RedefinitionListener())
+                  .with(new AgentListener())
+                  .installOn(instrumentation);
 
         Person person = new Person();
         person.sayOK();
@@ -114,16 +119,20 @@ public class ByteBuddyTest {
             classesTypeMap.put(edgeClass, AgentUtils.getClassBytes(edgeClass));
         }
 
-        AgentUtils.generateInternalClass(
-            "net.sunday.effective.java.agent.interceptor.InstMethodInterceptor", classesTypeMap);
+        String templateClassName = "net.sunday.effective.java.agent.interceptor.BootstrapInstMethodInterceptor";
+
+        AgentUtils.generateInternalClass(templateClassName, classesTypeMap);
 
         Instrumentation instrumentation = ByteBuddyAgent.install();
+
+        AgentBuilder agentBuilder = AgentUtils.newAgentBuilder()
+                                              // 不忽略任何类，默认会忽略jdk相关的类
+                                              .ignore(ElementMatchers.none());
 
         /*
          * Inject the classes into bootstrap class loader by using Unsafe Strategy.
          * ByteBuddy adapts the sun.misc.Unsafe and jdk.internal.misc.Unsafe automatically.
          */
-        AgentBuilder agentBuilder = newAgentBuilder();
         ClassInjector.UsingUnsafe.Factory factory = ClassInjector.UsingUnsafe.Factory.resolve(instrumentation);
         factory.make(null, null).injectRaw(classesTypeMap);
         agentBuilder = agentBuilder.with(new AgentBuilder.InjectionStrategy.UsingUnsafe.OfFactory(factory));
@@ -132,43 +141,37 @@ public class ByteBuddyTest {
             agentBuilder = agentBuilder.assureReadEdgeFromAndTo(instrumentation, Class.forName(edgeClass));
         }
 
-        agentBuilder.type(ElementMatchers.named("java.util.concurrent.ThreadPerTaskExecutor$TaskRunner"))
-
+        agentBuilder.type(hasSuperType(named("java.lang.Runnable")))
                     .transform(new AgentBuilder.Transformer() {
+
                         @Override
+                        @SneakyThrows
                         public DynamicType.Builder<?> transform(final DynamicType.Builder<?> builder,
                                                                 final TypeDescription typeDescription,
                                                                 final ClassLoader classLoader,
                                                                 final JavaModule module,
                                                                 final ProtectionDomain protectionDomain) {
 
-                            try {
-                                return builder.method(ElementMatchers.named("run"))
-                                              .intercept(MethodDelegation.withDefaultConfiguration()
-                                                                         .to(Class.forName(
-                                                                             "net.sunday.effective.java.agent.interceptor.InstMethodInterceptor_Internal")));
-                            } catch (ClassNotFoundException e) {
-                                throw new RuntimeException(e);
-                            }
+                            return builder.method(ElementMatchers.named("run").and(takesArguments(0)))
+                                          .intercept(MethodDelegation
+                                                         .withDefaultConfiguration()
+                                                         .to(Class.forName(
+                                                             AgentUtils.getInternalClassName(templateClassName))));
+
                         }
                     })
                     .with(AgentBuilder.RedefinitionStrategy.RETRANSFORMATION)
+                    .with(new RedefinitionListener())
+                    .with(new AgentListener())
                     .installOn(instrumentation);
 
-        final ExecutorService executorService = Executors.newVirtualThreadPerTaskExecutor();
+        final ExecutorService executorService = Executors.newSingleThreadScheduledExecutor(r -> {
+            Thread thread = new Thread(r);
+            thread.setName("http-get-thread");
+            return thread;
+        });
         executorService.execute(() -> System.out.println("Hello, World!"));
 
-    }
-
-    private AgentBuilder newAgentBuilder() {
-        return new AgentBuilder.Default(
-            new ByteBuddy()
-                // 设置为 true 时，ByteBuddy 会在字节码生成阶段执行严格的类型验证，但生成效率会降低，建议 debug 时使用。
-                .with(TypeValidation.ENABLED)
-                // 命名策略
-                .with(new CSAuxiliaryTypeNamingStrategy())
-                .with(new CSImplementationContextFactory("$cs$"))
-        );
     }
 
 }
