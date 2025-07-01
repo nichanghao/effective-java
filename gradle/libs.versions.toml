@@ -5,8 +5,8 @@ spring-cloud = '2023.0.1'
 spring-cloud-alibaba = '2023.0.1.0'
 hutool = '5.8.27'
 lombok = '1.18.32'
-# dubbo 与 spring-boot 版本不兼容，https://github.com/apache/dubbo-samples/blob/master/1-basic/dubbo-samples-spring-boot/pom.xml
-dubbo = '3.3.0-beta.2'
+# https://github.com/apache/dubbo-samples/blob/master/1-basic/dubbo-samples-spring-boot/pom.xml
+dubbo = '3.3.3'
 grpc = '1.72.0'
 
 [libraries]

@@ -1,0 +1,46 @@
+package net.sunday.effective.dubbo.consumer;
+
+import net.sunday.effective.dubbo.service.DemoService;
+import org.apache.dubbo.common.constants.CommonConstants;
+import org.apache.dubbo.config.ApplicationConfig;
+import org.apache.dubbo.config.ProtocolConfig;
+import org.apache.dubbo.config.ReferenceConfig;
+import org.apache.dubbo.config.RegistryConfig;
+import org.apache.dubbo.config.bootstrap.DubboBootstrap;
+import org.apache.dubbo.rpc.service.GenericService;
+
+public class DubboConsumerApplication {
+
+    private static final String REGISTRY_URL = "nacos://localhost:8848";
+
+    public static void main(String[] args) {
+        runWithBootstrap();
+    }
+
+    private static void runWithBootstrap() {
+        ReferenceConfig<DemoService> reference = new ReferenceConfig<>();
+        reference.setInterface(DemoService.class);
+        reference.setGeneric("true");
+
+        final ApplicationConfig config = new ApplicationConfig("dubbo-demo-api-consumer");
+        config.setQosEnable(false);
+
+        DubboBootstrap bootstrap = DubboBootstrap.getInstance();
+        bootstrap
+            .application(config)
+            .registry(new RegistryConfig(REGISTRY_URL))
+            .protocol(new ProtocolConfig(CommonConstants.TRIPLE, -1))
+            .reference(reference)
+            .start();
+
+        DemoService demoService = bootstrap.getCache().get(reference);
+        String message = demoService.sayHello("dubbo");
+        System.out.println(message);
+
+        // generic invoke
+        GenericService genericService = (GenericService) demoService;
+        Object genericInvokeResult = genericService.$invoke(
+            "sayHello", new String[] {String.class.getName()}, new Object[] {"dubbo generic invoke"});
+        System.out.println(genericInvokeResult.toString());
+    }
+}

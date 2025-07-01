@@ -19,4 +19,5 @@ findProject(':grpc:grpc-application')?.name = 'grpc-application'
 include 'antlr4'
 include 'groovy'
 include 'spring4all'
+include 'dubbo'
 
