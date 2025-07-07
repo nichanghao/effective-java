@@ -12,8 +12,8 @@ public class ConfigManagerTest {
         ApplicationModel applicationModel = ApplicationModel.defaultModel();
         ConfigManager configManager = applicationModel.getApplicationConfigManager();
 
-        System.setProperty("dubbo.registries.registry1.address", "1.1.1.1");
-        System.setProperty("dubbo.registries.registry2.port", "8000");
+        System.setProperty("dubbo.applications.app1.name", "app-demo1");
+        System.setProperty("dubbo.applications.app1.protocol", "dubbo");
 
         configManager.loadConfigsOfTypeFromProps(ApplicationConfig.class);
 
