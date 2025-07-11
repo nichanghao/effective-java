@@ -14,6 +14,13 @@ public class DubboProviderApplication {
     private static final String REGISTRY_URL = "nacos://localhost:8848";
 
     public static void main(String[] args) {
+        System.setProperty("dubbo.service.net.sunday.effective.dubbo.service.DemoService.timeout", "2000");
+        System.setProperty("dubbo.service.net.sunday.effective.dubbo.service.DemoService.sayHello.timeout", "1000");
+
+        // all, instance, interface
+        System.setProperty("dubbo.application.register-mode", "instance");
+        System.setProperty("dubbo.registry.use-as-metadata-center", "false");
+
         startWithBootstrap();
     }
 
@@ -24,12 +31,13 @@ public class DubboProviderApplication {
 
         DubboBootstrap bootstrap = DubboBootstrap.getInstance();
         bootstrap
-            .application(new ApplicationConfig("dubbo-demo-api-provider"))
-            .registry(new RegistryConfig(REGISTRY_URL))
-            .protocol(new ProtocolConfig(CommonConstants.DUBBO, -1))
-            .service(service)
-            .start()
-            .await();
+                .application(new ApplicationConfig("dubbo-demo-api-provider"))
+                .registry(new RegistryConfig(REGISTRY_URL))
+                .protocol(new ProtocolConfig(CommonConstants.DUBBO, -1))
+                .provider(builder -> builder.cluster("failover").loadbalance("random").retries(2).build())
+                .service(service)
+                .start()
+                .await();
     }
 
 }

@@ -21,6 +21,8 @@ public class DubboConsumerApplication {
         ReferenceConfig<DemoService> reference = new ReferenceConfig<>();
         reference.setInterface(DemoService.class);
         reference.setGeneric("true");
+        // 关闭元数据中心后，需要设置此值
+        reference.setProvidedBy("dubbo-demo-api-provider");
 
         final ApplicationConfig config = new ApplicationConfig("dubbo-demo-api-consumer");
         config.setQosEnable(false);
@@ -35,12 +37,12 @@ public class DubboConsumerApplication {
 
         DemoService demoService = bootstrap.getCache().get(reference);
         String message = demoService.sayHello("dubbo");
-        System.out.println(message);
+        System.err.println(message);
 
         // generic invoke
         GenericService genericService = (GenericService) demoService;
         Object genericInvokeResult = genericService.$invoke(
             "sayHello", new String[] {String.class.getName()}, new Object[] {"dubbo generic invoke"});
-        System.out.println(genericInvokeResult.toString());
+        System.err.println(genericInvokeResult.toString());
     }
 }

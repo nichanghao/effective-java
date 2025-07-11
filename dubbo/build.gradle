@@ -9,6 +9,7 @@ dependencies {
     implementation 'org.apache.dubbo:dubbo'
     // https://mvnrepository.com/artifact/org.apache.dubbo/dubbo-registry-nacos
     implementation 'org.apache.dubbo:dubbo-registry-nacos'
+    implementation 'org.apache.dubbo:dubbo-registry-zookeeper'
 
     // https://mvnrepository.com/artifact/ch.qos.logback/logback-classic
     implementation 'ch.qos.logback:logback-classic:1.5.16'

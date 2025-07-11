@@ -11,6 +11,6 @@ public class DemoServiceImpl implements DemoService {
 
         log.info("Hello {}, request from consumer: {}", name, RpcContext.getServiceContext().getRemoteAddress());
 
-        return "Hello " + name + ", response from provider: " + RpcContext.getServiceContext().getLocalAddress();
+        return "Hello " + name;
     }
 }
