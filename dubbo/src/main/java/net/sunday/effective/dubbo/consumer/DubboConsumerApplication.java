@@ -9,9 +9,9 @@ import org.apache.dubbo.config.RegistryConfig;
 import org.apache.dubbo.config.bootstrap.DubboBootstrap;
 import org.apache.dubbo.rpc.service.GenericService;
 
-public class DubboConsumerApplication {
+import static net.sunday.effective.dubbo.provider.DubboProviderApplication.REGISTRY_URL;
 
-    private static final String REGISTRY_URL = "nacos://localhost:8848";
+public class DubboConsumerApplication {
 
     public static void main(String[] args) {
         runWithBootstrap();
@@ -22,7 +22,7 @@ public class DubboConsumerApplication {
         reference.setInterface(DemoService.class);
         reference.setGeneric("true");
         // 关闭元数据中心后，需要设置此值
-        reference.setProvidedBy("dubbo-demo-api-provider");
+//        reference.setProvidedBy("dubbo-demo-api-provider");
 
         final ApplicationConfig config = new ApplicationConfig("dubbo-demo-api-consumer");
         config.setQosEnable(false);

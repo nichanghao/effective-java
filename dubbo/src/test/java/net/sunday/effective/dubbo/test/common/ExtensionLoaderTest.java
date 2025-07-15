@@ -42,6 +42,9 @@ public class ExtensionLoaderTest {
     void testAdaptiveExtension() {
         ModuleModel model = ApplicationModel.defaultModel().getDefaultModule();
         // @Adaptive 加在实现类上，则该类为自适应扩展点类
+        Protocol adaptiveExtension1 = model.getExtensionLoader(Protocol.class).getAdaptiveExtension();
+        Protocol dubbo = model.getExtensionLoader(Protocol.class).getExtension("dubbo");
+
         Compiler adaptiveExtension = model.getExtensionLoader(Compiler.class).getAdaptiveExtension();
         Assertions.assertSame(AdaptiveCompiler.class, adaptiveExtension.getClass());
 
