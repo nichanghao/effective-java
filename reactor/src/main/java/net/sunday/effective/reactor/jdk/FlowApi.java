@@ -1,4 +1,4 @@
-package net.sunday.effective.java.core.reactive;
+package net.sunday.effective.reactor.jdk;
 
 import lombok.SneakyThrows;
 

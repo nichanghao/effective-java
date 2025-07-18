@@ -1,4 +1,4 @@
-package net.sunday.effective.spring.webflux;
+package net.sunday.effective.reactor.webflux;
 
 import lombok.Getter;
 import lombok.Setter;

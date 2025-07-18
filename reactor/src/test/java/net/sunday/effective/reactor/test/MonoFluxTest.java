@@ -1,4 +1,4 @@
-package net.sunday.effective.java.core.test.reactor;
+package net.sunday.effective.reactor.test;
 
 import org.junit.jupiter.api.Test;
 import reactor.core.publisher.Flux;

@@ -1,0 +1,10 @@
+apply from: "$rootDir/java.gradle"
+
+dependencies {
+    implementation 'org.springframework:spring-webflux'
+    implementation 'org.springframework:spring-context'
+    // https://mvnrepository.com/artifact/io.projectreactor.netty/reactor-netty
+    implementation 'io.projectreactor.netty:reactor-netty-http'
+
+    implementation 'com.fasterxml.jackson.core:jackson-databind'
+}

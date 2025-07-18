@@ -20,4 +20,6 @@ include 'antlr4'
 include 'groovy'
 include 'spring4all'
 include 'dubbo'
+include 'reactor'
+include 'algorithm'
 
