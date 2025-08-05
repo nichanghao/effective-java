@@ -1,4 +1,4 @@
-package net.sunday.effective.reactor.webflux;
+package net.sunday.effective.reactor.web;
 
 import lombok.Getter;
 import lombok.Setter;

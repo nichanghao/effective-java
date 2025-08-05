@@ -1,0 +1,13 @@
+apply from: "$rootDir/java.gradle"
+
+dependencies {
+
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+
+    implementation 'org.springframework.ai:spring-ai-starter-model-openai:1.0.0'
+    // kimi https://docs.spring.io/spring-ai/reference/api/chat/moonshot-chat.html
+    implementation 'org.springaicommunity:moonshot-spring-boot-starter:1.0.0'
+
+    implementation 'dev.langchain4j:langchain4j:1.1.0'
+    implementation 'dev.langchain4j:langchain4j-open-ai:1.0.0'
+}
