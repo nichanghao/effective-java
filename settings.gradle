@@ -10,7 +10,7 @@ dependencyResolutionManagement {
 }
 
 include 'java-core'
-include 'java-agent'
+include 'observation'
 include 'grpc'
 include 'grpc:grpc-protobuf'
 findProject(':grpc:grpc-protobuf')?.name = 'grpc-protobuf'
