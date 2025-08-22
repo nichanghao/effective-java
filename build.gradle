@@ -13,6 +13,9 @@ allprojects {
     tasks.withType(JavaCompile).configureEach {
         options.encoding = "UTF-8"
     }
+    tasks.withType(JavaExec).configureEach {
+        jvmArgs += ['-Dsun.stdout.encoding=utf8', '-Dsun.stderr.encoding=utf8']
+    }
 }
 
 javaPlatform {

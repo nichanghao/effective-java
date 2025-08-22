@@ -44,7 +44,11 @@ public class ObservationTest {
     void testObservationWithEvents() {
         setObservationHandler();
 
-        Observation observation = Observation.start("database.query", registry);
+        Observation observation = Observation.start(
+                "database.query",
+                () -> new Observation.Context().put(String.class, "test"),
+                registry);
+
         try (Observation.Scope ignored = observation.openScope()) {
             observation.event(Observation.Event.of("query.started"));
 
