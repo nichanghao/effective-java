@@ -1,9 +1,7 @@
 package net.sunday.effective.dubbo.consumer;
 
 import net.sunday.effective.dubbo.service.DemoService;
-import org.apache.dubbo.common.constants.CommonConstants;
 import org.apache.dubbo.config.ApplicationConfig;
-import org.apache.dubbo.config.ProtocolConfig;
 import org.apache.dubbo.config.ReferenceConfig;
 import org.apache.dubbo.config.RegistryConfig;
 import org.apache.dubbo.config.bootstrap.DubboBootstrap;
@@ -31,7 +29,6 @@ public class DubboConsumerApplication {
         bootstrap
             .application(config)
             .registry(new RegistryConfig(REGISTRY_URL))
-            .protocol(new ProtocolConfig(CommonConstants.TRIPLE, -1))
             .reference(reference)
             .start();
 

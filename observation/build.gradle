@@ -15,6 +15,12 @@ dependencies {
     implementation 'io.micrometer:micrometer-core'
     implementation 'io.micrometer:micrometer-observation'
 
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'io.micrometer:micrometer-tracing-bridge-brave'
+    implementation 'io.micrometer:micrometer-tracing'
+    testImplementation 'io.micrometer:micrometer-tracing-test'
+    testImplementation 'com.squareup.okhttp3:okhttp:5.1.0'
+    testImplementation 'com.squareup.okhttp3:mockwebserver:5.1.0'
 
 }
 

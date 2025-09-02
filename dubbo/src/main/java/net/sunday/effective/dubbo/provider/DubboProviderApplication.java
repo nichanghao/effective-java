@@ -2,9 +2,7 @@ package net.sunday.effective.dubbo.provider;
 
 import net.sunday.effective.dubbo.service.DemoService;
 import net.sunday.effective.dubbo.service.DemoServiceImpl;
-import org.apache.dubbo.common.constants.CommonConstants;
 import org.apache.dubbo.config.ApplicationConfig;
-import org.apache.dubbo.config.ProtocolConfig;
 import org.apache.dubbo.config.RegistryConfig;
 import org.apache.dubbo.config.ServiceConfig;
 import org.apache.dubbo.config.bootstrap.DubboBootstrap;
@@ -33,7 +31,6 @@ public class DubboProviderApplication {
         bootstrap
                 .application(new ApplicationConfig("dubbo-demo-api-provider"))
                 .registry(new RegistryConfig(REGISTRY_URL))
-                .protocol(new ProtocolConfig(CommonConstants.DUBBO, -1))
                 .provider(builder -> builder.cluster("failover").loadbalance("random").retries(2).build())
                 .service(service)
                 .start()
