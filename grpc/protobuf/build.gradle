@@ -1,15 +1,12 @@
 plugins {
     id "java"
     id "com.google.protobuf" version "0.9.5"
-    id "idea"
 }
 
 dependencies {
     implementation "io.grpc:grpc-protobuf:${libs.versions.grpc.get()}"
     implementation "io.grpc:grpc-netty:${libs.versions.grpc.get()}"
     implementation "io.grpc:grpc-stub:${libs.versions.grpc.get()}"
-
-    compileOnly 'org.apache.tomcat:annotations-api:6.0.53'
 }
 
 
@@ -27,7 +24,11 @@ protobuf {
     generateProtoTasks {
         // all() -- 获取所有生成的 protobuf 任务
         // * -- Groovy 操作符，对 all() 返回集合中的每一个元素执行后续操作
-        all()*.plugins { grpc {} }
+        all()*.plugins {
+            grpc {
+                option '@generated=omit'
+            }
+        }
     }
 }
 

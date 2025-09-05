@@ -21,3 +21,11 @@ sourceSets {
         }
     }
 }
+
+tasks.named('sourcesJar') {
+    // 解决重复文件冲突
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+
+    // 确保 ANTLR 生成的代码已就绪
+    dependsOn generateGrammarSource
+}

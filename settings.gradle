@@ -1,5 +1,9 @@
-rootProject.name = 'effective-java'
+plugins {
+    // 自动下载 toolchain 工具链依赖的jdk
+    id 'org.gradle.toolchains.foojay-resolver-convention' version '1.0.0'
+}
 
+rootProject.name = 'effective-java'
 dependencyResolutionManagement {
     repositories {
         maven {
@@ -12,10 +16,8 @@ dependencyResolutionManagement {
 include 'java-core'
 include 'observation'
 include 'grpc'
-include 'grpc:grpc-protobuf'
-findProject(':grpc:grpc-protobuf')?.name = 'grpc-protobuf'
-include 'grpc:grpc-application'
-findProject(':grpc:grpc-application')?.name = 'grpc-application'
+include 'grpc:protobuf'
+include 'grpc:application'
 include 'antlr4'
 include 'groovy'
 include 'llm'
