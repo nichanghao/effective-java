@@ -1,4 +1,4 @@
-package integration.net.sunday.effective.llm;
+package integration.net.sunday.effective.llm.chat;
 
 import dev.langchain4j.data.message.ImageContent;
 import dev.langchain4j.data.message.TextContent;

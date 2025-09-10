@@ -1,4 +1,4 @@
-package integration.net.sunday.effective.llm;
+package integration.net.sunday.effective.llm.chat;
 
 import org.junit.jupiter.api.Test;
 import org.springaicommunity.moonshot.MoonshotChatModel;
